@@ -73,5 +73,10 @@ const Sounds = {
     }
 };
 
+// Make Sounds globally accessible
+if (typeof window !== 'undefined') {
+    window.Sounds = Sounds;
+}
+
 // Initialize on first user interaction
 document.addEventListener('click', () => Sounds.init(), { once: true });
