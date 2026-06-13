@@ -13,6 +13,10 @@ let gameState = {
     answers: []
 };
 
+// Expose to window for testing/debugging
+window.gameState = gameState;
+window.currentGame = currentGame;
+
 // ============================================
 // Initialization
 // ============================================
@@ -150,7 +154,10 @@ function getGameIcon(type) {
 }
 
 function getQuestionCount(game) {
-    if (game.type === 'matching' || game.type === 'ordering') {
+    if (game.type === 'matching') {
+        return game.questions.left ? game.questions.left.length : 0;
+    }
+    if (game.type === 'ordering') {
         return game.questions.items ? game.questions.items.length : 0;
     }
     return game.questions.length;
@@ -224,13 +231,13 @@ function closeModal() {
 }
 
 function resetGameState() {
-    gameState = {
-        score: 0,
-        currentQuestion: 0,
-        totalQuestions: getQuestionCount(currentGame),
-        correctAnswers: 0,
-        answers: []
-    };
+    gameState.score = 0;
+    gameState.currentQuestion = 0;
+    gameState.totalQuestions = getQuestionCount(currentGame);
+    gameState.correctAnswers = 0;
+    gameState.answers = [];
+    delete gameState.matchState;
+    delete gameState.orderState;
 }
 
 function renderGameQuestion() {
